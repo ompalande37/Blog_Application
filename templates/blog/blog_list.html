@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Posts{% endblock %}
+
+{% block content %}
+<div class="blog-header text-center mb-4">
+    <h1 class="display-4">Welcome to Django Blog</h1>
+    <p class="lead">Discover amazing stories and insights from our community</p>
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-end mb-3 gap-2">
+        <form action="{% url 'user_logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt me-1"></i>Logout
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <form method="get" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search posts..." value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Blog Posts -->
+        <div id="blog-posts">
+            {% for post in posts %}
+            <article class="blog-post">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <h2 class="h4 mb-2">
+                            <a href="{% url 'blog_detail' post.slug %}" class="text-decoration-none text-dark">
+                                {{ post.title }}
+                            </a>
+                        </h2>
+                        <div class="post-meta">
+                            <span><i class="fas fa-user"></i>{{ post.author.get_full_name|default:post.author.username }}</span>
+                            <span><i class="fas fa-calendar"></i>{{ post.timestamp|date:"M d, Y" }}</span>
+                            <span><i class="fas fa-heart"></i>{{ post.like_count }} likes</span>
+                            <span><i class="fas fa-comments"></i>{{ post.comment_count }} comments</span>
+                        </div>
+                        {% if post.excerpt %}
+                        <p class="text-muted">{{ post.excerpt }}</p>
+                        {% endif %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'blog_detail' post.slug %}" class="btn btn-outline-primary btn-sm">
+                                Read More <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                            {% if user == post.author %}
+                            <div>
+                                <a href="{% url 'blog_edit' post.pk %}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a href="{% url 'blog_delete' post.pk %}" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="text-center py-5">
+                <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                <h3>No posts found</h3>
+                <p class="text-muted">Be the first to create a blog post!</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'blog_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>Create Post
+                </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Blog pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+
+    <div class="col-md-4">
+        <!-- Sidebar -->
+        <div class="sidebar-card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>About</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Welcome to our Django Blog! Here you can read, create, and share amazing stories with our community.</p>
+                {% if user.is_authenticated %}
+                <div class="user-status mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle text-success me-2"></i>
+                        <div>
+                            <strong>{{ user.username }}</strong>
+                            <br>
+                            <small class="text-muted">Logged in</small>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'blog_create' %}" class="btn btn-primary w-100">
+                    <i class="fas fa-plus me-1"></i>Create New Post
+                </a>
+                {% else %}
+                <div class="text-center">
+                    <p class="text-muted mb-3">Join our community to create posts and engage with others!</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'user_register' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-user-plus me-1"></i>Register
+                        </a>
+                        <a href="{% url 'user_login' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Dynamic search functionality
+$(document).ready(function() {
+    let searchTimeout;
+    
+    $('input[name="search"]').on('input', function() {
+        clearTimeout(searchTimeout);
+        const query = $(this).val();
+        
+        searchTimeout = setTimeout(function() {
+            if (query.length >= 2 || query.length === 0) {
+                window.location.href = '?search=' + encodeURIComponent(query);
+            }
+        }, 500);
+    });
+});
+</script>
+{% endblock %} 

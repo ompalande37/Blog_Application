@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Forms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Test Forms</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Registration Form</h3>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            
+            <div class="col-md-6">
+                <h3>Login Form</h3>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login_username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="login_username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login_password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login_password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="messages"></div>
+    </div>
+
+    <script src="static/js/ajax.js"></script>
+    <script>
+        // Test the forms manually
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded');
+            
+            // Test registration form
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    console.log('Registration form submitted manually');
+                    
+                    const formData = new FormData(registerForm);
+                    const data = {
+                        username: formData.get('username'),
+                        email: formData.get('email'),
+                        password: formData.get('password'),
+                        first_name: formData.get('first_name'),
+                        last_name: formData.get('last_name')
+                    };
+                    
+                    console.log('Registration data:', data);
+                    
+                    fetch('/api/register/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Response data:', data);
+                        if (data.access) {
+                            alert('Registration successful!');
+                        } else {
+                            alert('Registration failed: ' + JSON.stringify(data));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error: ' + error.message);
+                    });
+                });
+            }
+            
+            // Test login form
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    console.log('Login form submitted manually');
+                    
+                    const formData = new FormData(loginForm);
+                    const data = {
+                        username: formData.get('username'),
+                        password: formData.get('password')
+                    };
+                    
+                    console.log('Login data:', data);
+                    
+                    fetch('/api/login/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Response data:', data);
+                        if (data.access) {
+                            alert('Login successful!');
+                        } else {
+                            alert('Login failed: ' + JSON.stringify(data));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error: ' + error.message);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

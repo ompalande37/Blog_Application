@@ -1,0 +1,555 @@
+/* Custom CSS for Django Blog Application */
+
+/* Custom Variables */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --accent-color: #f093fb;
+    --success-color: #4facfe;
+    --warning-color: #f093fb;
+    --danger-color: #f093fb;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --text-muted: #7f8c8d;
+    --border-color: #bdc3c7;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s ease;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* Custom Navbar */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.navbar-dark {
+    background: rgba(44, 62, 80, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Blog Header */
+.blog-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.blog-header h1 {
+    font-weight: 800;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.blog-header .lead {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Blog Posts */
+.blog-post {
+    background: white;
+    border: none;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-post::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+.blog-post:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.blog-post h2 {
+    color: var(--text-color);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.blog-post h2 a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.blog-post h2 a:hover {
+    color: var(--primary-color);
+}
+
+/* Post Meta */
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.post-meta i {
+    color: var(--primary-color);
+    margin-right: 0.25rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 25px;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+}
+
+.btn-outline-danger:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Like Button */
+.like-button {
+    background: none;
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.like-button:hover,
+.like-button.liked {
+    background: var(--danger-color);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Comments Section */
+.comment-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.comment-item {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Search Bar */
+.search-container {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.search-container input {
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    transition: var(--transition);
+}
+
+.search-container input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Pagination */
+.pagination .page-link {
+    border: none;
+    color: var(--primary-color);
+    border-radius: 8px;
+    margin: 0 0.25rem;
+    transition: var(--transition);
+}
+
+.pagination .page-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border: none;
+}
+
+/* Sidebar */
+.sidebar-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.sidebar-card .card-header {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 1.5rem;
+}
+
+/* Blog Detail */
+.blog-detail {
+    background: white;
+    border-radius: 15px;
+    padding: 3rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.blog-detail h1 {
+    color: var(--text-color);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.blog-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+    color: var(--text-color);
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.blog-content ul,
+.blog-content ol {
+    margin-bottom: 1.5rem;
+}
+
+.blog-content li {
+    margin-bottom: 0.5rem;
+}
+
+.blog-content code {
+    background: var(--light-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.blog-content pre {
+    background: var(--dark-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+/* Form Styling */
+.form-control {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+}
+
+.alert-success {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    color: white;
+}
+
+.alert-info {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.blog-post {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .blog-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .blog-post {
+        padding: 1.5rem;
+    }
+    
+    .blog-detail {
+        padding: 2rem;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Footer */
+footer {
+    background: var(--dark-color);
+    color: white;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bg-gradient {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.shadow-custom {
+    box-shadow: var(--shadow);
+}
+
+.shadow-custom:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* Authentication buttons styles */
+.auth-buttons .card {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.auth-buttons .card-body {
+    padding: 2rem;
+}
+
+.auth-buttons .card-title {
+    color: white;
+    font-weight: 600;
+}
+
+.auth-buttons .card-text {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.auth-buttons .btn-primary {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-buttons .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.auth-buttons .btn-outline-primary {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-buttons .btn-outline-primary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.auth-buttons small a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.auth-buttons small a:hover {
+    color: white;
+    text-decoration: underline !important;
+}
+
+/* Welcome user alert */
+.welcome-user .alert {
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.welcome-user .alert strong {
+    color: white;
+}
+
+/* User Status */
+.user-status {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.user-status i {
+    font-size: 1.5rem;
+}
+
+.user-status strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.user-status small {
+    font-size: 0.8rem;
+} 
